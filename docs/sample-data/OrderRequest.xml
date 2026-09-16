@@ -1,0 +1,197 @@
+<TXLife>
+	<UserAuthRequest>
+		<UserLoginName>NONE</UserLoginName>
+		<UserPswd>
+			<CryptType>NONE</CryptType>
+			<Pswd>NONE</Pswd>
+		</UserPswd>
+	</UserAuthRequest>
+	<TXLifeRequest>
+	<!-- Guid datatype per ACORD, must be unique for each payload -->
+		<TransRefGUID>11111120-d106-46f9-a9d2-111111111235</TransRefGUID>
+		<TransType tc="121">General Requirement Order Request</TransType>
+		<TransExeDate>2024 -12-10</TransExeDate>
+		<TransExeTime>12:00:00-05:00</TransExeTime>
+		<TransMode tc="2">Original Request</TransMode>
+		
+		<OLifE>
+			<Holding id="holding">
+				<Policy CarrierPartyID="carrier">
+					<!-- OPTIONAL/BUT MAY BE REQUIRED DUE TO CLIENT REQUIREMENT OF CERTAIN PRODUCT  -->
+					<PolNumber>39132584</PolNumber>
+					
+                    <!-- this carrier code is different from the one from Agency node.  This is optional field -->
+					<Life id="l1">
+                    <!-- optional but may required based on certain service type  -->
+						<FaceAmt>700000</FaceAmt>
+					</Life>
+					<ApplicationInfo>
+						<!--EIS will send this value back for to clients for tracking... should be unique .  this is your unique identifier on your system. 
+						It doesn't have to be a guid, could be whole number or alphanumerics
+						-->
+						<TrackingID>d457994f-9ba0-40e6-8875-47a0bc6f9903</TrackingID>
+					</ApplicationInfo>
+					<RequirementInfo AppliesToPartyID="Party_Insured" RequesterPartyID="Party_Agency">
+                        <!-- hardcode to 11 .. the HORequirementRefID will determine the order type
+                         -->
+						<ReqCode tc="11">Attending Phyisian Statement</ReqCode>
+                        <!-- copy instructions or underwriter notes -->
+                        <RequirementDetails>Last 5 years</RequirementDetails>
+                        
+						<!-- REQUIRED 
+						Order Type
+						Posible values are:
+						
+						
+						1	APS (Attending Phyisian Statement) <HORequirementRefID>1</HORequirementRefID>
+						2	EHR (Electric Health Record) <HORequirementRefID>2</HORequirementRefID>
+						5	EHR to APS (EIS will auto pivot from EHR to APS if no records are found for EHR)
+							<HORequirementRefID>5</HORequirementRefID>
+						
+						-->
+						<HORequirementRefID>1</HORequirementRefID>
+						<RequestedDate>2020-06-10</RequestedDate>
+						<!-- OPTIONAL -->
+						<ResponsiblePartyType tc="4">EIS</ResponsiblePartyType>
+						<!-- OPTIONAL -->
+						<ReleasePartyOrgCode>MM-LT</ReleasePartyOrgCode>
+						<!-- OPTIONAL -->
+						<RequirementAcctNum>38811</RequirementAcctNum>
+						<!-- attachment node with image is required.  Tiff or PDF -->
+						<Attachment>
+							<AttachmentBasicType tc="2">Image</AttachmentBasicType>
+							<AttachmentData>JVBERi0xLjEKJeLjz9MKMSAwIG9iago8PC9DcmVhdG9yIChjNDJwZGYgdi4gMC4xMiBhcmdzOiApCi9DcmVhdGlvbkRhdGUgKEQ6MjAwMzA3MzEwMDU3NDIpCi9Qcm9kdWNlciAoUERGbGliIFYwLjYgKEMpIFRob21hcyBNZXJ6IDE5OTctOTgpCj4+CmVuZG9iago1IDAgb2JqCjw8L0xlbmd0aCA2IDAgUgo+PgpzdHJlYW0KZW5kc3RyZWFtCmVuZG9iago2IDAgb2JqCjAKZW5kb2JqCjcgMCBvYmoKPDwvVHlwZSAvWE9iamVjdAovU3VidHlwZSAvSW1hZ2UKL05hbWUgL0kwCi9GaWx0ZXIgL0NDSVRURmF4RGVjb2RlIC9XaWR0aCA4MzIKL0hlaWdodCAxMTYzCi9CaXRzUGVyQ29tcG9uZW50IDEKL0NvbG9yU3BhY2UgL0RldmljZUdyYXkKL0RlY29kZVBhcm1zIDw8IC9LIC0xIC9Db2x1bW5zIDgzMiA+PgovTGVuZ3RoIDggMCBSCj4+CnN0cmVhbQr///////////////////////8spkLQdOta06Cog47pMKFSI/URhadYWWUWBohawuoWCwvpQtYWlC1hYWFrCULWsEqwn4ShYLCwsJeFhBEdQo1og2PpLCVUk4QXCSVBdLhBJQktKoQSwguCKHS0KhUEtLoJaVQkssnAq1pYQXSShLoKoSSoK4SWlVBIIjqEsYQXCSVJYQS0kqChEdQSThBcm4sgklCEJKguktJKyCoW6CWklCCWEFUEUOEuKWEFVBLQSUIK4ShUEsIIjpKEhXCSoJYQXCCSpJQktBVSWgSUEpFH1SWgkuEFpUkukl0EqUJJLQVVCCXpKlBJLoKk6CS4SSXS9BV0lShBJdJUoSroJKoQSrCSXSpKElqgq4SVaCqoSSWgnqEFCWk9YTXBIUqXSWgqhLwkoS8JKEulUEEtBdJKEqhBdJaCqlwklQXCS66CqEuEEtBVCSwl0qhBeEsJJUFwlWFwklQXCS0qhLpLQXCVUkqXCXSWEq0sIL1wktKFCXSWlwklroLgktKoS6Swl0qpLQXpYJdKqXSWEugqpLCXCXSWgqhLpLQXQXSWlwvCCWlVLpLS4S6VQkuF0lgl0qpLSqlwl0koS6SVLpcJdJKldKqS0qhLpVSWl0uktKqXSWlVL0tKoJdr0tqrXpaXS4KuF2u0grV2qrWltVYXpdevXSXVVXC9V+wktVS6VdLXa9J6rdZMcmPXhhPcOIoL8PUeuvXC/pev9fr0vyKKkOiVLjXWq69PD3XXpa9L6r9V16X1X4Vdf0vXXpf0vquvS/rr0v6Wv6X1X0tf1wqf16X9fXXr/S+q/0v669fqv1X+l/XVL/0v6X9deuvX6r9V/1X6r/XXrr11/S/rr+l/S/9L+uv669df11/S/pf0v/XX9LX9fr1+vXX9fr1+tV/9da9df11/S/9df0v/qv16/Xrr+l/qv/pf69fquvX+l/quvXVf6//1vX69f/X11///6//11f11vXr//X/Vf/6/69f/6/+l/6/VBf/1+vT1u1X///1/1//6///1+v//X//1/1//6e97/36///+v+v/Xf/1/91/wsFgsFgsLIK7IKogqMhTINjIWyC45AhkUpEqOyLWMMKP//////////////////////////////wAQAWVuZHN0cmVhbQplbmRvYmoKOCAwIG9iago4NjMKZW5kb2JqCjkgMCBvYmoKPDwvTGVuZ3RoIDEwIDAgUgo+PgpzdHJlYW0KNTk1IDAgMCA4NDIgMCAwIGNtCi9JMCBEbwplbmRzdHJlYW0KZW5kb2JqCjEwIDAgb2JqCjI2CmVuZG9iago0IDAgb2JqCjw8L1R5cGUgL1BhZ2UKL1BhcmVudCAyIDAgUgovUmVzb3VyY2VzIDExIDAgUgovTWVkaWFCb3ggWzAgMCA1OTUgODQyXQovQ3JvcEJveCBbMCAwIDU5NSA4NDJdCi9Db250ZW50cyBbNSAwIFIgOSAwIFIgXQo+PgplbmRvYmoKMTEgMCBvYmoKPDwvUHJvY1NldCBbL1BERiAvSW1hZ2VCXQovWE9iamVjdCA8PC9JMCA3IDAgUgo+Pgo+PgplbmRvYmoKMTMgMCBvYmoKPDwvTGVuZ3RoIDE0IDAgUgo+PgpzdHJlYW0KZW5kc3RyZWFtCmVuZG9iagoxNCAwIG9iagowCmVuZG9iagoxNSAwIG9iago8PC9UeXBlIC9YT2JqZWN0Ci9TdWJ0eXBlIC9JbWFnZQovTmFtZSAvSTAKL0ZpbHRlciAvQ0NJVFRGYXhEZWNvZGUgL1dpZHRoIDgzMgovSGVpZ2h0IDExNjMKL0JpdHNQZXJDb21wb25lbnQgMQovQ29sb3JTcGFjZSAvRGV2aWNlR3JheQovRGVjb2RlUGFybXMgPDwgL0sgLTEgL0NvbHVtbnMgODMyID4+Ci9MZW5ndGggMTYgMCBSCj4+CnN0cmVhbQr///////////////////////+W9SMdRgivKZSxS6GI8t3VlMqWPyulKscrrKr61ldSUKKdK9cLf1Twt/W8Lx///////////////ybFYKJNhqMBqybKwN4IgtG4IEQPjcqBA5bmgHg0y3WQPDagiB4MpuTCIHgTm4MtwoDwZoQOCDhEMgHNzhA4QOg4QOg6By3UAeDkmiOB5S3rSIHmFh0giB6MwdlOQWtnDhJEFjYwOgkQONgRBkNixIIEdioK1JEFLZa6SBBh0ggR2sg2S3zSQIGDpsEDcEUOECoEGHaYQbhJBAw6CI6CBBvsEG+ggbldaSEIN0gQQYfoN+Ew4oEG4JN0CDdINwgmDpBugnpBugg3SfCDD10g3purdJvTZH+GLpQiP0WPDjaD3Fw3f4bttyusAw3du7w7dpuGpAw3VGE1YTcXve3u97+3e37dv277vu3f2/b9v7vb+7ft/33779/7/fv9++/7/f99/7/17f///3//92q2vuuH/r6/1/ulv/Xr//6/69f/XXp7/r9V9f6Xr8FS1S1ulXXpelr0q6rS1WlS9aVL0vSrqlXVdV1quvarqtKuq6pV1Wu60tV1Wgq6pUqWq0qRbjSpDqlX0sFSrSpapUqVBeEtUqVKlWlSoKtKtKlSpUqVaVKl4SparCVKtKgqVKlWgqVKlSpUqVKlShLCpUqVKlSpVrSrCVKtaVBQlQVKlWEqVKEqCrQVKEqCpQlQWoS1CVKlCVKlSoKEqCrShBUqVBUqVKlCVKlCC1CVLVBUqVBQlSpUFCVKlShBUoSoKgqVKlShBUqVKlWtBUqCoKsIKlSoKlShKlqlCC1QULQVKlQVaVBVpUqVKlSpU61p0qVKgqVKlSpUtQlSpUqCpelQVKlSpapaoKlS9KlQVLVKlXVKlQVKlqlSOyUNhHDkdUjsaA8ZdVO0AeCtopQZAYpELDIDapEqDIBmpEUDJAigiNBkg2kdaJMMkGepBgthspFOC2DbSOoLYFdIEQMwYXVMEQMwzVytIFoIFpGAMwbDaoYLjp19fXIZIKQKQeCn0QyQbwUOfZBWnIZAkgspyvcKImsGbRXIRHAnyB4ao5Y5RMIScFXIHhncpuk0QPxyhym6pogsGzkMOFkFI2oQg4Ijocg2jlGyeI5DTNjBQ4LINDQXkMpoVwWQIaBKQdoFpEaCtmaAof////////////////////////////////////////////////+ACACAZW5kc3RyZWFtCmVuZG9iagoxNiAwIG9iago5MzQKZW5kb2JqCjE3IDAgb2JqCjw8L0xlbmd0aCAxOCAwIFIKPj4Kc3RyZWFtCjU5NSAwIDAgODQyIDAgMCBjbQovSTAgRG8KZW5kc3RyZWFtCmVuZG9iagoxOCAwIG9iagoyNgplbmRvYmoKMTIgMCBvYmoKPDwvVHlwZSAvUGFnZQovUGFyZW50IDIgMCBSCi9SZXNvdXJjZXMgMTkgMCBSCi9NZWRpYUJveCBbMCAwIDU5NSA4NDJdCi9Dcm9wQm94IFswIDAgNTk1IDg0Ml0KL0NvbnRlbnRzIFsxMyAwIFIgMTcgMCBSIF0KPj4KZW5kb2JqCjE5IDAgb2JqCjw8L1Byb2NTZXQgWy9QREYgL0ltYWdlQl0KL1hPYmplY3QgPDwvSTAgMTUgMCBSCj4+Cj4+CmVuZG9iagoyMCAwIG9iagpbIDQgMCBSIC9GaXQgXQplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcwovQ291bnQgMgovS2lkcyBbNCAwIFIgMTIgMCBSIF0KPj4KZW5kb2JqCjMgMCBvYmoKPDwvVHlwZSAvQ2F0YWxvZwovT3BlbkFjdGlvbiAyMCAwIFIKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagp4cmVmCjAgMjEKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDMyMTAgMDAwMDAgbiAKMDAwMDAwMzI3NCAwMDAwMCBuIAowMDAwMDAxNDE4IDAwMDAwIG4gCjAwMDAwMDAxNDkgMDAwMDAgbiAKMDAwMDAwMDIwMCAwMDAwMCBuIAowMDAwMDAwMjE3IDAwMDAwIG4gCjAwMDAwMDEzMDIgMDAwMDAgbiAKMDAwMDAwMTMyMSAwMDAwMCBuIAowMDAwMDAxMzk5IDAwMDAwIG4gCjAwMDAwMDE1NTQgMDAwMDAgbiAKMDAwMDAwMjk3MCAwMDAwMCBuIAowMDAwMDAxNjIzIDAwMDAwIG4gCjAwMDAwMDE2NzYgMDAwMDAgbiAKMDAwMDAwMTY5NCAwMDAwMCBuIAowMDAwMDAyODUyIDAwMDAwIG4gCjAwMDAwMDI4NzIgMDAwMDAgbiAKMDAwMDAwMjk1MSAwMDAwMCBuIAowMDAwMDAzMTA5IDAwMDAwIG4gCjAwMDAwMDMxNzkgMDAwMDAgbiAKdHJhaWxlcgo8PC9TaXplIDIxCi9JbmZvIDEgMCBSCi9Sb290IDMgMCBSCj4+CnN0YXJ0eHJlZgozMzQxCiUlRU9GCg==</AttachmentData>
+							<AttachmentType tc="487">Hippa</AttachmentType>
+							<!--MimeTypeTC tc="11">image/tiff</MimeTypeTC-->
+							<MimeTypeTC tc="17">application/pdf</MimeTypeTC>
+							<TransferEncodingTypeString>base64</TransferEncodingTypeString>
+							<AttachmentLocation tc="1">Inline</AttachmentLocation>
+						</Attachment>
+						
+					</RequirementInfo>
+				</Policy>
+			</Holding>
+            
+			<Party id="Party_Agency">
+				<PartyTypeCode tc="2">Organization</PartyTypeCode>
+				<Producer>
+               <CarrierAppointment>
+                 <!-- this value should map to Group Name our EIS Portal -->
+                  <CompanyProducerID>007</CompanyProducerID>
+                  <CarrierCode/>
+               </CarrierAppointment>
+            </Producer>
+			</Party>
+			
+			<Party id="Party_HomeOffice">
+			 <PartyTypeCode tc="1">Person</PartyTypeCode>
+				<FullName>Home Office Contact Name</FullName>
+				<!-- OPTIONAL-->
+                <Phone>
+                    <DialNumber>444-222-3333</DialNumber>
+                </Phone>
+                <EMailAddress>
+                    <AddrLine>Home.Office@mm.com</AddrLine>
+                </EMailAddress>
+			</Party>
+			
+			
+			
+			<Party id="Party_Agent">
+			 <PartyTypeCode tc="1">Person</PartyTypeCode>
+				<FullName>Agent Name</FullName>
+				<!-- OPTIONAL-->
+                <Phone>
+                    <DialNumber>111-222-3333</DialNumber>
+                </Phone>
+                <EMailAddress>
+                    <AddrLine>Scooby.Doo@mm.com</AddrLine>
+                </EMailAddress>
+			</Party>
+			
+			
+			<!-- party insured is required -->
+			<Party id="Party_Insured">
+				<PartyTypeCode tc="1">Person</PartyTypeCode>
+				<!-- required -->
+				<GovtID>111223333</GovtID>
+				<!-- required -->
+				<Person>
+					<FirstName>Shaggy</FirstName>
+					<MiddleName>P</MiddleName>
+					<LastName>Doo</LastName>
+					<BirthDate>1960-01-01</BirthDate>
+					<Gender tc="1">Male</Gender>
+				</Person>
+				<!-- required -->
+				<Address>
+					<AddressTypeCode tc="1">Residence</AddressTypeCode>
+					
+					<Line1>123 Main Street</Line1>
+					
+					<City>Seattle</City>
+					
+					<AddressState>AL</AddressState>
+					
+					<Zip>32152</Zip>
+					
+					<AddressCountry>US</AddressCountry>
+				</Address>
+				<Phone id="pp51">
+					<DialNumber>154-532-2400</DialNumber>
+				</Phone>
+				<!-- required for EHR -->
+				  <EMailAddress>
+                    <AddrLine>Shaggy.Doo@mm.com</AddrLine>
+                </EMailAddress>
+			</Party>
+			
+		
+			<!-- required -->
+			<Party id="Party_Physician">
+				<PartyTypeCode tc="1">Person</PartyTypeCode>
+				<Person>
+					<FirstName>HARDWIN</FirstName>
+					<LastName>SMITH MD</LastName>
+					<Suffix>NONE</Suffix>
+				</Person>
+                <!-- name of facility ex. Kaise of Anaheim. Not required.-->
+                <FullName>Kaiser of Anaheim</FullName>
+				<Address id="pa52">
+					<AddressTypeCode tc="1">Business</AddressTypeCode>
+					<Line1>123 MONTCLAIRE RD STE 1</Line1>
+					<City>BIRMINGHAM</City>
+					<AddressStateTC tc="1">AL</AddressStateTC>
+					<Zip>35213</Zip>
+					<AddressCountry>US</AddressCountry>
+				</Address>
+				<!-- new requirement - Version 2, we need a phone number to help with scheduling appointments-->
+				<Phone id="pp54">
+					<DialNumber>205-444-1900</DialNumber>
+				</Phone>
+			</Party>
+			<Relation id="holdingAgent" OriginatingObjectID="holding" RelatedObjectID="Party_Agent">
+				<OriginatingObjectType tc="4">Holding</OriginatingObjectType>
+				<RelatedObjectType tc="6">Party</RelatedObjectType>
+				<RelationRoleCode tc="37">Agent</RelationRoleCode>
+			</Relation>
+			<Relation id="holdingInsured" OriginatingObjectID="holding" RelatedObjectID="Party_Insured">
+				<OriginatingObjectType tc="4">Holding</OriginatingObjectType>
+				<RelatedObjectType tc="6">Party</RelatedObjectType>
+				<RelationRoleCode tc="32">Insured</RelationRoleCode>
+			</Relation>
+			
+			<Relation id="insuredPhysician" OriginatingObjectID="Party_Insured" RelatedObjectID="Party_Physician">
+				<OriginatingObjectType tc="6">Party</OriginatingObjectType>
+				<RelatedObjectType tc="6">Party</RelatedObjectType>
+				<RelationRoleCode tc="41">Physician</RelationRoleCode>
+			</Relation>
+			<Relation id="homeOffice" OriginatingObjectID="holding" RelatedObjectID="Party_HomeOffice">
+				<OriginatingObjectType tc="6">Party</OriginatingObjectType>
+				<RelatedObjectType tc="6">Party</RelatedObjectType>
+				<RelationRoleCode tc="213">Home Office</RelationRoleCode>
+			</Relation>
+		</OLifE>
+	</TXLifeRequest>
+</TXLife>
+
