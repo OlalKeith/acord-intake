@@ -11,9 +11,9 @@ public sealed class XmlUtility
 
         var root = document.DocumentElement
             ?? throw new XmlException("The XML document has no root element.");
-
-        RemoveNamespaces(root, document);
-        return document.OuterXml;
+        var namespaceFreeDocument = new XmlDocument();
+        namespaceFreeDocument.AppendChild(CloneWithoutNamespaces(root, namespaceFreeDocument));
+        return namespaceFreeDocument.OuterXml;
     }
 
     public static string GetAttributeValue(XmlNode node, string attributeName)
@@ -21,23 +21,23 @@ public sealed class XmlUtility
         return node.Attributes?[attributeName]?.Value ?? string.Empty;
     }
 
-    private static void RemoveNamespaces(XmlNode node, XmlDocument document)
+    private static XmlElement CloneWithoutNamespaces(XmlElement source, XmlDocument document)
     {
-        if (node is XmlElement element)
+        var element = document.CreateElement(source.LocalName);
+        foreach (XmlAttribute attribute in source.Attributes)
         {
-            document.RenameNode(element, null, element.LocalName);
-
-            for (var index = element.Attributes.Count - 1; index >= 0; index--)
-            {
-                var attribute = element.Attributes[index];
-                if (attribute.Prefix == "xmlns" || attribute.Name == "xmlns")
-                    element.RemoveAttributeNode(attribute);
-                else if (attribute.NamespaceURI.Length > 0)
-                    document.RenameNode(attribute, null, attribute.LocalName);
-            }
+            if (attribute.Prefix != "xmlns" && attribute.Name != "xmlns")
+                element.SetAttribute(attribute.LocalName, attribute.Value);
         }
 
-        foreach (XmlNode child in node.ChildNodes)
-            RemoveNamespaces(child, document);
+        foreach (XmlNode child in source.ChildNodes)
+        {
+            if (child is XmlElement childElement)
+                element.AppendChild(CloneWithoutNamespaces(childElement, document));
+            else
+                element.AppendChild(document.ImportNode(child, true));
+        }
+
+        return element;
     }
 }
