@@ -1,0 +1,107 @@
+namespace AcordIntake.Api.Mapping;
+
+public class WorkOrder
+{
+    public long WorkOrderID { get; set; }
+    public string RequestID { get; set; } = string.Empty;
+    public string ApplicationInfoTrackingID { get; set; } = string.Empty;
+    public string CaseNumber { get; set; } = string.Empty;
+    public string CopyInstruction { get; set; } = string.Empty;
+    public string RequestorName { get; set; } = string.Empty;
+    public string RequestorEmail { get; set; } = string.Empty;
+    public string RequestorPhone { get; set; } = string.Empty;
+    public string RequestorPhoneExt { get; set; } = string.Empty;
+    public string RequestorCompanyName { get; set; } = string.Empty;
+    public string RequestorFirstName { get; set; } = string.Empty;
+    public string RequestorLastName { get; set; } = string.Empty;
+    public string RequestorAddess { get; set; } = string.Empty;
+    public string RequestorCity { get; set; } = string.Empty;
+    public string RequestorState { get; set; } = string.Empty;
+    public string RequestorZipcode { get; set; } = string.Empty;
+    public string RequesterPartyID { get; set; } = string.Empty;
+    public string RequestorContactPartyID { get; set; } = string.Empty;
+    public string AgentName { get; set; } = string.Empty;
+    public string AgentID { get; set; } = string.Empty;
+    public string AgentPhone { get; set; } = string.Empty;
+    public string AgentEmail { get; set; } = string.Empty;
+    public string ReceiveDate { get; set; } = string.Empty;
+    public string ApplicantLastName { get; set; } = string.Empty;
+    public string ApplicantFirstName { get; set; } = string.Empty;
+    public string ApplicantMiddleInitial { get; set; } = string.Empty;
+    public string ApplicantSSN { get; set; } = string.Empty;
+    public string ApplicantAddress { get; set; } = string.Empty;
+    public string ApplicantCity { get; set; } = string.Empty;
+    public string ApplicantDOB { get; set; } = string.Empty;
+    public string ApplicantState { get; set; } = string.Empty;
+    public string ApplicantZip { get; set; } = string.Empty;
+    public string PatientEmail { get; set; } = string.Empty;
+    public string PatientPhone1 { get; set; } = string.Empty;
+    public string PatientPhone2 { get; set; } = string.Empty;
+    public string InsuranceCompany { get; set; } = string.Empty;
+    public string CarrierCode { get; set; } = string.Empty;
+    public string AgencyCarrierCode { get; set; } = string.Empty;
+    public string CarrierPartyID { get; set; } = string.Empty;
+    public string PolicyNumber { get; set; } = string.Empty;
+    public string TransExeDate { get; set; } = string.Empty;
+    public string TransExeTime { get; set; } = string.Empty;
+    public string PolicyProductType { get; set; } = string.Empty;
+    public string PolicyProductTypeTC { get; set; } = string.Empty;
+    public string FaceAmount { get; set; } = string.Empty;
+    public string ReqCodeTC { get; set; } = string.Empty;
+    public string RequirementDetails { get; set; } = string.Empty;
+    public string RequestedDate { get; set; } = string.Empty;
+    public string ScheduledDate { get; set; } = string.Empty;
+    public string RequirementAcctNum { get; set; } = string.Empty;
+    public string RequirementInfoUniqueID { get; set; } = string.Empty;
+    public string EISWorkOrder { get; set; } = string.Empty;
+    public string EISWorkOrderStatus { get; set; } = string.Empty;
+    public string EISWorkOrderStatusNote { get; set; } = string.Empty;
+    public string EISUpdated { get; set; } = string.Empty;
+    public string ErrorMessage { get; set; } = string.Empty;
+    public string Created { get; set; } = string.Empty;
+    public string CompletedImageLocation { get; set; } = string.Empty;
+    public string FormalAppInd { get; set; } = string.Empty;
+    public string HoldingTypeCode { get; set; } = string.Empty;
+    public string HoldingTypeCodeTC { get; set; } = string.Empty;
+    public string TransRefGUID { get; set; } = string.Empty;
+    public string AppliesToPartyID { get; set; } = string.Empty;
+    public string FullfillerPartyID { get; set; } = string.Empty;
+    public string RelationNodeXML { get; set; } = string.Empty;
+    public string Note { get; set; } = string.Empty;
+    public string NoteToEIS { get; set; } = string.Empty;
+    public string UnitCode { get; set; } = string.Empty;
+    public string BillCode { get; set; } = string.Empty;
+    public string MaxFee { get; set; } = string.Empty;
+    public string IsExam { get; set; } = string.Empty;
+    public string DoctorFirstName { get; set; } = string.Empty;
+    public string DoctorLastName { get; set; } = string.Empty;
+    public string DoctorOrFacilityName { get; set; } = string.Empty;
+    public string DoctorCountry { get; set; } = string.Empty;
+    public string FacilityAddress { get; set; } = string.Empty;
+    public string FacilityCity { get; set; } = string.Empty;
+    public string FacilityFax { get; set; } = string.Empty;
+    public string FacilityPhone { get; set; } = string.Empty;
+    public string FacilityPhoneExt { get; set; } = string.Empty;
+    public string FacilityState { get; set; } = string.Empty;
+    public string FacilityZipCode { get; set; } = string.Empty;
+    public string AttachmentLocation { get; set; } = string.Empty;
+    public string WritingAgentAddress { get; set; } = string.Empty;
+    public string WritingAgentCity { get; set; } = string.Empty;
+    public string WritingAgentEmail { get; set; } = string.Empty;
+    public string WritingAgentFirstName { get; set; } = string.Empty;
+    public string WritingAgentLastName { get; set; } = string.Empty;
+    public string WritingAgentPhone { get; set; } = string.Empty;
+    public string WritingAgentPhoneExt { get; set; } = string.Empty;
+    public string WritingAgentState { get; set; } = string.Empty;
+    public string WritingAgentZipCode { get; set; } = string.Empty;
+    public string CompanyProducerID { get; set; } = string.Empty;
+    public string Gender { get; set; } = string.Empty;
+    public string ServicePassword { get; set; } = string.Empty;
+    public string ServiceUserName { get; set; } = string.Empty;
+    public string TransCode { get; set; } = string.Empty;
+    public bool TestOnly { get; set; }
+    public bool IsCancelled { get; set; }
+    public bool IsUpdate { get; set; }
+    public bool IsUrgent { get; set; }
+    public string xml { get; set; } = string.Empty;
+}
