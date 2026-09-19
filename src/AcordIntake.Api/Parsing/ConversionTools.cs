@@ -20,8 +20,8 @@ public static class ConversionTools
             CultureInfo.InvariantCulture,
             DateTimeStyles.AllowWhiteSpaces,
             out var result)
-            ? result
-            : fallback;
+            ? DateTime.SpecifyKind(result, DateTimeKind.Utc)
+            : DateTime.SpecifyKind(fallback, DateTimeKind.Utc);
     }
 
     public static decimal ConvertToDecimal(string? value, decimal fallback)

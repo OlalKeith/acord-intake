@@ -117,9 +117,9 @@
 				<GovtID>111223333</GovtID>
 				<!-- required -->
 				<Person>
-					<FirstName>Shaggy</FirstName>
+						<FirstName>James</FirstName>
 					<MiddleName>P</MiddleName>
-					<LastName>Doo</LastName>
+						<LastName>Doe</LastName>
 					<BirthDate>1960-01-01</BirthDate>
 					<Gender tc="1">Male</Gender>
 				</Person>
@@ -142,7 +142,7 @@
 				</Phone>
 				<!-- required for EHR -->
 				  <EMailAddress>
-                    <AddrLine>Shaggy.Doo@mm.com</AddrLine>
+					<AddrLine>James.Doe@mm.com</AddrLine>
                 </EMailAddress>
 			</Party>
 			
