@@ -1,48 +1,62 @@
 # ACORD TXLife Intake
 
-## 1. Environment
+## 1. What this project does
 
-The assessment is being developed on:
+The assignment is based on an existing C# ACORD TXLife intake flow.
+
+I built two small APIs around the same basic flow:
+
+- .NET API that accepts the supplied ACORD XML
+- Django API that accepts the equivalent JSON
+
+Both applications save the mapped data into the same PostgreSQL table:
+
+`public.aps_incoming`
+
+The main flow is:
+
+XML / JSON
+→ read the request
+→ map the relevant fields
+→ validate the data
+→ create the incoming order
+→ save it to PostgreSQL
+
+## 2. Environment
+
+I developed and tested the project on:
 
 - Kali Linux
 - .NET 8
+- Python 3.14
+- Django 5.2
 - PostgreSQL
-- Python / Django
 - Git
 
-The database used for local development is:
+Local database:
 
-- Database: `acord_intake`
+`acord_intake`
 
-## 2. Assessment Overview
+PostgreSQL:
 
-The supplied code is part of a larger application that receives ACORD TXLife requests.
+`localhost:5432`
 
-The assessment requires building a new application that can receive the supplied XML request, process the relevant business logic, map it into a WorkOrder, and save the resulting data into a database.
+## 3. Source code and sample XML
 
-The supplied C# files are not a complete application. They are a subset of services, controllers, and data classes from the original system. Missing dependencies will therefore need to be identified and stubbed where necessary.
+The original C# files provided for the assignment are under:
 
-The main processing flow I am working toward is:
+`reference/TXLifeAccordRequestServices/`
 
-XML request
-→ TXLifeRequest
-→ validation
-→ WorkOrder mapping
-→ APSIncomingEntity
-→ database
+The sample request is:
 
-## 3. Input XML
+`docs/sample-data/OrderRequest.xml`
 
-`OrderRequest.xml` is the sample ACORD TXLife request provided with the assessment.
+The XML is an ACORD TXLife request. It contains the transaction details, policy, requirement, attachment, insured, physician, agent and the relationships between them.
 
-It is used as the input payload for testing the new application.
+The main parts I worked with are:
 
-The XML contains:
-
-- `TXLife`
 - `TXLifeRequest`
-- transaction information
-- `OLifE` business data
+- `OLifE`
 - `Holding`
 - `Policy`
 - `RequirementInfo`
@@ -50,50 +64,188 @@ The XML contains:
 - `Party`
 - `Relation`
 
-The request represents a requirement order. In the supplied sample, the requirement code is `11` and the `HORequirementRefID` is `1`, which the assignment identifies as an APS order.
+## 4. .NET XML intake
 
-The XML also contains an inline base64 encoded PDF attachment.
+The .NET application is in:
 
-## 4. Important XML Fields
+`src/AcordIntake.Api`
 
-Some of the fields that are relevant to processing are:
+The endpoint is:
 
-| XML field | Purpose |
+`POST /api/intake/xml`
+
+The application:
+
+1. Receives the XML request.
+2. Reads the `TXLifeRequest`.
+3. Extracts the transaction information.
+4. Reads the policy and requirement information.
+5. Finds the relevant parties, including the insured and physician.
+6. Maps the information into a `WorkOrder`.
+7. Validates the required values.
+8. Maps the `WorkOrder` into an `APSIncomingEntity`.
+9. Saves the result to PostgreSQL.
+
+I removed the XML namespace prefixes before querying the document because this made working with the supplied XML simpler.
+
+The main values being mapped include the policy number, tracking ID, patient details, requirement information and attachment information.
+
+## 5. Django JSON intake
+
+The Django application is in:
+
+`src/AcordIntake.Django`
+
+The endpoint is:
+
+`POST /api/intake/json`
+
+The JSON uses the same basic structure and information as the XML request.
+
+The Django API reads the relevant fields and saves them to the same `aps_incoming` table used by the .NET application.
+
+The purpose of this second path is to show that the same business data can be accepted through JSON while still ending up in the same database structure.
+
+## 6. Shared database table
+
+Both applications write to:
+
+`public.aps_incoming`
+
+The .NET application creates the table using EF Core migrations.
+
+Some of the fields used by the mapping are:
+
+- `TransRefGUID`
+- `TrackingID`
+- `PolicyNumber`
+- `PolicyAmcount`
+- `PatientFirstName`
+- `PatientLastName`
+- `PatientDOB`
+- `PatientSSN`
+- `PatientEmail`
+- `RequirementAcctNum`
+- `HIPPALocation`
+- `ErrorMessage`
+- `IsTestOnly`
+- `Created`
+- `OrderDate`
+
+The table is shared by both intake paths.
+
+## 7. Main field mappings
+
+Some of the important mappings are:
+
+| XML field | Database field |
 |---|---|
-| `TXLifeRequest/TransRefGUID` | Unique transaction reference |
-| `TXLifeRequest/TransType/@tc` | Transaction type code |
-| `TXLifeRequest/TransExeDate` | Transaction execution date |
-| `TXLifeRequest/TransExeTime` | Transaction execution time |
-| `TXLifeRequest/TransMode/@tc` | Transaction mode |
-| `Holding/Policy/PolNumber` | Policy number |
-| `Holding/Policy/RequirementInfo/ReqCode/@tc` | Requirement code |
-| `Holding/Policy/RequirementInfo/HORequirementRefID` | Determines the requirement order type |
-| `Holding/Policy/RequirementInfo/Attachment` | Requirement document |
-| `Party` | People or organizations involved in the request |
-| `Relation` | Relationships between the entities in the request |
+| `TXLifeRequest/TransRefGUID` | `TransRefGUID` |
+| `Policy/PolNumber` | `PolicyNumber` |
+| `Policy/Life/FaceAmt` | `PolicyAmcount` |
+| `Policy/ApplicationInfo/TrackingID` | `TrackingID` |
+| `Party[@id='Party_Insured']/Person/FirstName` | `PatientFirstName` |
+| `Party[@id='Party_Insured']/Person/LastName` | `PatientLastName` |
+| `Party[@id='Party_Insured']/Person/BirthDate` | `PatientDOB` |
+| `Party[@id='Party_Insured']/GovtID` | `PatientSSN` |
+| `Party[@id='Party_Insured']/EMailAddress/AddrLine` | `PatientEmail` |
+| `Policy/RequirementInfo/RequirementAcctNum` | `RequirementAcctNum` |
+| `Policy/RequirementInfo/Attachment/AttachmentLocation` | `HIPPALocation` |
 
-## 5. Initial Understanding of the ACORD Structure
+## 8. Things I found while working through the reference code
 
-The XML uses the ACORD TXLife structure to represent the request and its related business entities.
+The supplied C# files are not a complete application. They are a selection of services, controllers and models from the original system.
 
-`TXLifeRequest` contains the transaction information.
+Because of this, some dependencies were missing from the supplied code. I added small stubs where needed so that I could run the relevant flow without trying to recreate the entire original application.
 
-`OLifE` contains the business entities involved in the request.
+I also found some areas where the sample data and the legacy code need to be handled carefully.
 
-A `Holding` contains the policy information and requirement being requested.
-
-`Party` represents entities such as the insured, agent, physician, and agency.
-
-`Relation` connects these entities to each other and to the holding.
-
-For example, the sample contains relationships between the holding and the insured, the holding and the agent, and the insured and the physician.
-
-## 6. Requirement Information
-
-The sample contains a `RequirementInfo` element under the policy.
-
-Important values include:
+For example, the sample contains:
 
 ```xml
-<ReqCode tc="11">Attending Phyisian Statement</ReqCode>
-<HORequirementRefID>1</HORequirementRefID>
+<TransExeDate>2024 -12-10</TransExeDate>
+```
+
+There is a space before the `-`, so this needs to be handled when parsing the date.
+
+Another example is the transaction information. The legacy code reads the `tc` value from `TransType` as `TransCode`, so I kept track of that behavior when mapping the request.
+
+I also found a reference to `TXLifeTXLifeRequestOLifEPartyAddress` in the supplied code, but the class was not included in the provided files. I created a minimal stub for the missing dependency.
+
+## 9. Testing
+
+I tested the .NET application with the supplied XML:
+
+```bash
+dotnet build src/AcordIntake.Api/AcordIntake.Api.csproj --no-restore
+```
+
+The project builds successfully with no warnings or errors.
+
+I also checked the Django project:
+
+```bash
+cd src/AcordIntake.Django
+/usr/bin/python3.14 manage.py check
+```
+
+The Django system check completed without issues.
+
+### XML request
+
+I sent the supplied XML directly to the API:
+
+```bash
+curl -sS -X POST http://127.0.0.1:5015/api/intake/xml \
+  -H 'Content-Type: application/xml' \
+  --data-binary @docs/sample-data/OrderRequest.xml
+```
+
+The request returned `200` and created a record in `aps_incoming`.
+
+### JSON request
+
+I also sent the equivalent JSON to:
+
+```text
+POST /api/intake/json
+```
+
+The response confirmed that the record was saved to:
+
+```text
+aps_incoming
+```
+
+### Database check
+
+I queried the shared table after running both requests to confirm that records from both paths were present.
+
+The important values such as policy number, tracking ID, requirement account number and patient information matched between the XML and JSON requests.
+
+## 10. Running the project
+
+### .NET
+
+```bash
+dotnet run --project src/AcordIntake.Api
+```
+
+Then send the XML to:
+
+```text
+POST http://127.0.0.1:5015/api/intake/xml
+```
+
+### Django
+
+```bash
+cd src/AcordIntake.Django
+python manage.py runserver 127.0.0.1:8001
+```
+
+Then send JSON to:
+
+```text
+POST http://127.0.0.1:8001/api/intake/json
+```
