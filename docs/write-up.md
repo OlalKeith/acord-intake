@@ -86,7 +86,6 @@ The application:
 8. Maps the `WorkOrder` into an `APSIncomingEntity`.
 9. Saves the result to PostgreSQL.
 
-I removed the XML namespace prefixes before querying the document because this made working with the supplied XML simpler.
 
 The main values being mapped include the policy number, tracking ID, patient details, requirement information and attachment information.
 
@@ -103,8 +102,6 @@ The endpoint is:
 The JSON uses the same basic structure and information as the XML request.
 
 The Django API reads the relevant fields and saves them to the same `aps_incoming` table used by the .NET application.
-
-The purpose of this second path is to show that the same business data can be accepted through JSON while still ending up in the same database structure.
 
 ## 6. Shared database table
 
@@ -156,7 +153,7 @@ Some of the important mappings are:
 
 The supplied C# files are not a complete application. They are a selection of services, controllers and models from the original system.
 
-Because of this, some dependencies were missing from the supplied code. I added small stubs where needed so that I could run the relevant flow without trying to recreate the entire original application.
+Because of this, some dependencies were missing from the supplied code. I added small placeholders where needed so that I could run the relevant flow without trying to recreate the entire original application.
 
 I also found some areas where the sample data and the legacy code need to be handled carefully.
 
@@ -170,7 +167,7 @@ There is a space before the `-`, so this needs to be handled when parsing the da
 
 Another example is the transaction information. The legacy code reads the `tc` value from `TransType` as `TransCode`, so I kept track of that behavior when mapping the request.
 
-I also found a reference to `TXLifeTXLifeRequestOLifEPartyAddress` in the supplied code, but the class was not included in the provided files. I created a minimal stub for the missing dependency.
+I also found a reference to `TXLifeTXLifeRequestOLifEPartyAddress` in the supplied code, but the class was not included in the provided files. I created a minimal placeholder for the missing dependency.
 
 ## 9. Testing
 
